@@ -62,18 +62,20 @@ function styled<P extends RNComponentProps>(
               let value = cssArgs[i];
               if (typeof value === 'function') {
                 value = value(props);
+              } else if (typeof value === 'undefined') {
+                value = '';
               }
-              return acc + cur + (value || '');
+              return acc + cur + value;
             }, '');
-
+    
       const rnStyle = StyleSheet.create({ style: cssToRN(cssString) });
-
+    
       const combinedProps = {
         ...props,
         ref,
         style: [rnStyle.style, props.style],
       } as P;
-
+    
       return <Component {...combinedProps} />;
     }) as StyledComponent<P>;
 

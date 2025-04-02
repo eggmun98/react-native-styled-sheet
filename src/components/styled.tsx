@@ -64,6 +64,8 @@ function styled<P extends RNComponentProps>(
                 value = value(props);
               } else if (typeof value === 'undefined') {
                 value = '';
+              } else {
+                value = String(value);
               }
               return acc + cur + value;
             }, '');

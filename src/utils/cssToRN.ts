@@ -1,20 +1,22 @@
+import transformDeclPairs from 'css-to-react-native';
+
 export const cssToRN = (cssString: string) => {
-    const style: Record<string, any> = {};
-    
-    cssString
-      .replace(/\s+/g, '')
+  try {
+    const unsupportedProps = ['column-gap', 'row-gap'];
+
+    const declPairs: [string, string][] = cssString
       .split(';')
+      .map(line => line.trim())
       .filter(Boolean)
-      .forEach((line) => {
-        const [prop, value] = line.split(':');
-        if (!prop || !value) return;
-  
-        const formattedProp = prop.replace(/-([a-z])/g, (_, char) => char.toUpperCase());
-        
-        const numericValue = parseFloat(value);
-        style[formattedProp] = isNaN(numericValue) ? value : numericValue;
-      });
-  
-    return style;
-  };
-  
+      .map(line => {
+        const [prop, ...value] = line.split(':');
+        return [prop.trim(), value.join(':').trim()] as [string, string];
+      })
+      .filter(([prop]) => !unsupportedProps.includes(prop));
+
+    return transformDeclPairs(declPairs);
+  } catch (error) {
+    console.warn('Error transforming CSS:', error);
+    return {};
+  }
+};

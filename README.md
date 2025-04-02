@@ -53,30 +53,14 @@ const Button = styled.TouchableOpacity<{ primary?: boolean }>`
 `;
 ```
 
-### Extending styled components
-
-```tsx
-const Button = styled.TouchableOpacity`
-  padding: 10px;
-  background-color: gray;
-`;
-
-const PrimaryButton = styled(Button)`
-  background-color: blue;
-`;
-```
-
-### Using `.attrs()`
-
-```tsx
-const Input = styled.TextInput.attrs({
-  placeholderTextColor: '#999',
-})`
-  border: 1px solid #ddd;
-  padding: 10px;
-`;
-```
-
 ## Future Plans
 
-- Theme support (dark/light mode) will be added in future releases.
+- Theme support (dark/light mode)
+- Global styles
+- Mixin functionality
+- `.attrs()` support
+- Extending styled components (inheritance)
+
+## Contribution
+
+If you encounter any bugs, please submit a Pull Request. We also welcome contributions for new features!

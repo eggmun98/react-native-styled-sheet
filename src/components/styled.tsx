@@ -1,4 +1,4 @@
-import React, { forwardRef, ComponentType, PropsWithoutRef } from 'react';
+import React, { forwardRef, PropsWithoutRef, ForwardedRef } from 'react';
 import {
   View,
   Text,
@@ -39,22 +39,22 @@ interface SafeAreaViewProps extends ViewProps {
   mode?: 'padding' | 'margin';
 }
 
+
+
 type RNComponentProps = { style?: any; [key: string]: any };
 
 type StyledComponent<P> = React.ForwardRefExoticComponent<P> & {
-  attrs?: (attrs: Partial<P>) => StyledComponent<P>;
+  attrs: (attrs: Partial<P>) => StyledComponent<P>;
 };
 
-function styled<P extends RNComponentProps>(
-  Component: React.ComponentType<P> | StyledComponent<P>,
-) {
-  return (
+function styled<P extends RNComponentProps>(Component: React.ComponentType<P>) {
+  const createStyled = (
     cssStrings: TemplateStringsArray | ((props: PropsWithoutRef<P>) => string),
     ...cssArgs: any[]
   ): StyledComponent<P> => {
     type Props = P & { style?: any };
 
-    const StyledComp = forwardRef<any, P>((props, ref) => {
+    const StyledComp = forwardRef<any, Props>((props, ref) => {
       const cssString =
         typeof cssStrings === 'function'
           ? cssStrings(props)
@@ -69,32 +69,34 @@ function styled<P extends RNComponentProps>(
               }
               return acc + cur + value;
             }, '');
-    
+
       const rnStyle = StyleSheet.create({ style: cssToRN(cssString) });
-    
+
       const combinedProps = {
         ...props,
-        ref,
         style: [rnStyle.style, props.style],
-      } as P;
-    
+        ref,
+      } as Props;
+
       return <Component {...combinedProps} />;
     }) as StyledComponent<P>;
 
     StyledComp.attrs = (attrs: Partial<P>) => {
-      const AttrsComp = forwardRef<any, Props>((props, ref) => {
-        const combinedProps = { ...attrs, ...props } as P;
-        return <StyledComp ref={ref} {...combinedProps} />;
-      });
-
-      return AttrsComp as StyledComponent<P>;
+      const AttrsComponent = forwardRef((props: PropsWithoutRef<P>, ref: ForwardedRef<any>) => (
+        <StyledComp ref={ref} {...(attrs as P)} {...props} />
+      ));
+      return AttrsComponent as StyledComponent<P>;
     };
 
     return StyledComp;
   };
+
+  return createStyled;
 }
 
-export default {
+export default styled;
+
+export const Styled = {
   View: styled<ViewProps>(View),
   Text: styled<TextProps>(Text),
   TouchableOpacity: styled<TouchableOpacityProps>(TouchableOpacity),

@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+      "target": "ESNext",
+      "module": "ESNext",
+      "jsx": "react-native",
+      "moduleResolution": "node",
+      "allowSyntheticDefaultImports": true,
+      "esModuleInterop": true,
+      "strict": true,
+      "declaration": true,
+      "outDir": "dist",
+      "skipLibCheck": true
+    },
+    "include": ["src/**/*"]
+  }
+  

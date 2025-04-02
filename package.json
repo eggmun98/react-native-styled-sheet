@@ -1,11 +1,18 @@
 {
   "name": "react-native-styled-sheet",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Styled-components like API for React Native using StyleSheet",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "author": "eggmun98",
-  "keywords": ["react-native", "styled-components", "styled-sheet", "styled-sheet-components", "react-native-styled-sheet", "react"],
+  "keywords": [
+    "react-native",
+    "styled-components",
+    "styled-sheet",
+    "styled-sheet-components",
+    "react-native-styled-sheet",
+    "react"
+  ],
   "license": "MIT",
   "repository": {
     "type": "git",

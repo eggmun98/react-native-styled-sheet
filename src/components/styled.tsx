@@ -31,6 +31,7 @@ import {
   SwitchProps,
   StatusBarProps,
 } from 'react-native';
+import transformDeclPairs from 'css-to-react-native';
 import { cssToRN } from '../utils/cssToRN';
 
 interface SafeAreaViewProps extends ViewProps {
@@ -38,8 +39,6 @@ interface SafeAreaViewProps extends ViewProps {
   edges?: Array<'top' | 'right' | 'bottom' | 'left'>;
   mode?: 'padding' | 'margin';
 }
-
-
 
 type RNComponentProps = { style?: any; [key: string]: any };
 
@@ -94,22 +93,38 @@ function styled<P extends RNComponentProps>(Component: React.ComponentType<P>) {
   return createStyled;
 }
 
-export default styled;
-
-export const Styled = {
-  View: styled<ViewProps>(View),
-  Text: styled<TextProps>(Text),
-  TouchableOpacity: styled<TouchableOpacityProps>(TouchableOpacity),
-  ScrollView: styled<ScrollViewProps>(ScrollView),
-  Image: styled<ImageProps>(Image),
-  TextInput: styled<TextInputProps>(TextInput),
-  FlatList: styled<FlatListProps<any>>(FlatList),
-  SectionList: styled<SectionListProps<any>>(SectionList),
-  Pressable: styled<PressableProps>(Pressable),
-  SafeAreaView: styled<SafeAreaViewProps>(SafeAreaView),
-  KeyboardAvoidingView: styled<KeyboardAvoidingViewProps>(KeyboardAvoidingView),
-  Modal: styled<ModalProps>(Modal),
-  ActivityIndicator: styled<ActivityIndicatorProps>(ActivityIndicator),
-  Switch: styled<SwitchProps>(Switch),
-  StatusBar: styled<StatusBarProps>(StatusBar),
+const baseStyled = styled as typeof styled & {
+  View: ReturnType<typeof styled<ViewProps>>;
+  Text: ReturnType<typeof styled<TextProps>>;
+  TouchableOpacity: ReturnType<typeof styled<TouchableOpacityProps>>;
+  ScrollView: ReturnType<typeof styled<ScrollViewProps>>;
+  Image: ReturnType<typeof styled<ImageProps>>;
+  TextInput: ReturnType<typeof styled<TextInputProps>>;
+  FlatList: ReturnType<typeof styled<FlatListProps<any>>>;
+  SectionList: ReturnType<typeof styled<SectionListProps<any, any>>>;
+  Pressable: ReturnType<typeof styled<PressableProps>>;
+  SafeAreaView: ReturnType<typeof styled<SafeAreaViewProps>>;
+  KeyboardAvoidingView: ReturnType<typeof styled<KeyboardAvoidingViewProps>>;
+  Modal: ReturnType<typeof styled<ModalProps>>;
+  ActivityIndicator: ReturnType<typeof styled<ActivityIndicatorProps>>;
+  Switch: ReturnType<typeof styled<SwitchProps>>;
+  StatusBar: ReturnType<typeof styled<StatusBarProps>>;
 };
+
+baseStyled.View = styled(View);
+baseStyled.Text = styled(Text);
+baseStyled.TouchableOpacity = styled(TouchableOpacity);
+baseStyled.ScrollView = styled(ScrollView);
+baseStyled.Image = styled(Image);
+baseStyled.TextInput = styled(TextInput);
+baseStyled.FlatList = styled(FlatList);
+baseStyled.SectionList = styled(SectionList);
+baseStyled.Pressable = styled(Pressable);
+baseStyled.SafeAreaView = styled(SafeAreaView);
+baseStyled.KeyboardAvoidingView = styled(KeyboardAvoidingView);
+baseStyled.Modal = styled(Modal);
+baseStyled.ActivityIndicator = styled(ActivityIndicator);
+baseStyled.Switch = styled(Switch);
+baseStyled.StatusBar = styled(StatusBar);
+
+export default baseStyled;

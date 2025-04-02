@@ -34,10 +34,10 @@ import {
 import { cssToRN } from '../utils/cssToRN';
 
 interface SafeAreaViewProps extends ViewProps {
-    children?: React.ReactNode;
-    edges?: Array<'top' | 'right' | 'bottom' | 'left'>;
-    mode?: 'padding' | 'margin';
-  }
+  children?: React.ReactNode;
+  edges?: Array<'top' | 'right' | 'bottom' | 'left'>;
+  mode?: 'padding' | 'margin';
+}
 
 type RNComponentProps = { style?: any; [key: string]: any };
 
@@ -46,44 +46,49 @@ type StyledComponent<P> = React.ForwardRefExoticComponent<P> & {
 };
 
 function styled<P extends RNComponentProps>(
-    Component: React.ComponentType<P> | StyledComponent<P>,
-  ) {
-    return (
-      cssStrings: TemplateStringsArray | ((props: PropsWithoutRef<P>) => string),
-      ...cssArgs: any[]
-    ): StyledComponent<P> => {
-      type Props = P & { style?: any };
-  
-      const StyledComp = forwardRef<any, P>((props, ref) => {
-        const cssString =
-          typeof cssStrings === 'function'
-            ? cssStrings(props)
-            : cssStrings.reduce((acc, cur, i) => acc + cur + (cssArgs[i]?.(props) || ''), '');
-  
-        const rnStyle = StyleSheet.create({ style: cssToRN(cssString) });
-  
-        const combinedProps = {
-          ...props,
-          ref,
-          style: [rnStyle.style, props.style],
-        } as P;
-  
-        return <Component {...combinedProps} />;
-      }) as StyledComponent<P>;
-  
-      StyledComp.attrs = (attrs: Partial<P>) => {
-        const AttrsComp = forwardRef<any, Props>((props, ref) => {
-          const combinedProps = { ...attrs, ...props } as P;
-          return <StyledComp ref={ref} {...combinedProps} />;
-        });
-  
-        return AttrsComp as StyledComponent<P>;
-      };
-  
-      return StyledComp;
+  Component: React.ComponentType<P> | StyledComponent<P>,
+) {
+  return (
+    cssStrings: TemplateStringsArray | ((props: PropsWithoutRef<P>) => string),
+    ...cssArgs: any[]
+  ): StyledComponent<P> => {
+    type Props = P & { style?: any };
+
+    const StyledComp = forwardRef<any, P>((props, ref) => {
+      const cssString =
+        typeof cssStrings === 'function'
+          ? cssStrings(props)
+          : cssStrings.reduce((acc, cur, i) => {
+              let value = cssArgs[i];
+              if (typeof value === 'function') {
+                value = value(props);
+              }
+              return acc + cur + (value || '');
+            }, '');
+
+      const rnStyle = StyleSheet.create({ style: cssToRN(cssString) });
+
+      const combinedProps = {
+        ...props,
+        ref,
+        style: [rnStyle.style, props.style],
+      } as P;
+
+      return <Component {...combinedProps} />;
+    }) as StyledComponent<P>;
+
+    StyledComp.attrs = (attrs: Partial<P>) => {
+      const AttrsComp = forwardRef<any, Props>((props, ref) => {
+        const combinedProps = { ...attrs, ...props } as P;
+        return <StyledComp ref={ref} {...combinedProps} />;
+      });
+
+      return AttrsComp as StyledComponent<P>;
     };
-  }
-  
+
+    return StyledComp;
+  };
+}
 
 export default {
   View: styled<ViewProps>(View),

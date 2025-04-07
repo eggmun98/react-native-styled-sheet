@@ -89,7 +89,6 @@ export default function App() {
 - Global styles
 - Mixin functionality
 - `.attrs()` support
-- Extending styled components (inheritance)
 
 ## Contribution
 

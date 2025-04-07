@@ -1,4 +1,4 @@
-import React, { forwardRef, PropsWithoutRef, ForwardedRef } from 'react';
+import React, { forwardRef } from 'react';
 import {
   View,
   Text,
@@ -31,20 +31,8 @@ import {
   SwitchProps,
   StatusBarProps,
 } from 'react-native';
-import transformDeclPairs from 'css-to-react-native';
 import { cssToRN } from '../utils/cssToRN';
-
-interface SafeAreaViewProps extends ViewProps {
-  children?: React.ReactNode;
-  edges?: Array<'top' | 'right' | 'bottom' | 'left'>;
-  mode?: 'padding' | 'margin';
-}
-
-type RNComponentProps = { style?: any; [key: string]: any };
-
-type StyledComponent<P> = React.ForwardRefExoticComponent<P & React.RefAttributes<any>> & {
-  attrs: <A extends Partial<P>>(attrs: A) => StyledComponent<Omit<P, keyof A> & A>;
-};
+import { RNComponentProps, SafeAreaViewProps, StyledComponent } from './tpyes';
 
 function styled<P extends RNComponentProps>(Component: React.ComponentType<P>) {
   const createStyled = (

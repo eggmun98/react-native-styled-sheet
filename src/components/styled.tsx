@@ -42,21 +42,19 @@ interface SafeAreaViewProps extends ViewProps {
 
 type RNComponentProps = { style?: any; [key: string]: any };
 
-type StyledComponent<P> = React.ForwardRefExoticComponent<P> & {
-  attrs: (attrs: Partial<P>) => StyledComponent<P>;
+type StyledComponent<P> = React.ForwardRefExoticComponent<P & React.RefAttributes<any>> & {
+  attrs: <A extends Partial<P>>(attrs: A) => StyledComponent<Omit<P, keyof A> & A>;
 };
 
 function styled<P extends RNComponentProps>(Component: React.ComponentType<P>) {
   const createStyled = (
-    cssStrings: TemplateStringsArray | ((props: PropsWithoutRef<P>) => string),
+    cssStrings: TemplateStringsArray | ((props: any) => string),
     ...cssArgs: any[]
   ): StyledComponent<P> => {
-    type Props = P & { style?: any };
-
-    const StyledComp = forwardRef<any, Props>((props, ref) => {
+    const StyledComp = forwardRef<any, P>((props, ref) => {
       const cssString =
         typeof cssStrings === 'function'
-          ? cssStrings(props)
+          ? cssStrings(props as any)
           : cssStrings.reduce((acc, cur, i) => {
               let value = cssArgs[i];
               if (typeof value === 'function') {
@@ -75,16 +73,16 @@ function styled<P extends RNComponentProps>(Component: React.ComponentType<P>) {
         ...props,
         style: [rnStyle.style, props.style],
         ref,
-      } as Props;
+      } as P;
 
       return <Component {...combinedProps} />;
     }) as StyledComponent<P>;
 
-    StyledComp.attrs = (attrs: Partial<P>) => {
-      const AttrsComponent = forwardRef((props: PropsWithoutRef<P>, ref: ForwardedRef<any>) => (
-        <StyledComp ref={ref} {...(attrs as P)} {...props} />
+    StyledComp.attrs = <A extends Partial<P>>(attrs: A) => {
+      const AttrsComponent = forwardRef<any, Omit<P, keyof A> & A>((props, ref) => (
+        <StyledComp ref={ref} {...attrs} {...props as any} />
       ));
-      return AttrsComponent as StyledComponent<P>;
+      return AttrsComponent as StyledComponent<Omit<P, keyof A> & A>;
     };
 
     return StyledComp;

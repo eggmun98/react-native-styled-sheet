@@ -47,11 +47,41 @@ export default function App() {
 ### Dynamic styling with props
 
 ```tsx
-const Button = styled.TouchableOpacity<{ primary?: boolean }>`
-  background-color: ${(props) => (props.primary ? 'blue' : 'gray')};
+const Button = styled.TouchableOpacity`
   padding: 10px;
+  background-color: ${(props) => (props.primary ? 'blue' : 'gray')};
 `;
 ```
+
+### Extending styled components (inheritance)
+You can extend existing styled components just like with Styled Components:
+
+```tsx
+const BaseButton = styled.TouchableOpacity`
+  padding: 10px;
+  background-color: gray;
+  border-radius: 5px;
+`;
+
+const PrimaryButton = styled(BaseButton)`
+  background-color: blue;
+`;
+
+const SecondaryButton = styled(BaseButton)`
+  background-color: green;
+`;
+
+export default function App() {
+  return (
+    <>
+      <PrimaryButton />
+      <SecondaryButton />
+    </>
+  );
+}
+
+```
+
 
 ## Future Plans
 

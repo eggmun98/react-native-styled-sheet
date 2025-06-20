@@ -1,3 +1,4 @@
+import React from 'react';
 import { 
   View, 
   Text, 
@@ -22,6 +23,13 @@ function styled(Component) {
   const createStyled = function (strings) {
     return createStyledComponent(Component, strings);
   };
+
+  createStyled.attrs = function(attrsProps) {
+    return function(strings) {
+      return createStyledComponent(Component, strings, attrsProps);
+    };
+  };
+
   return createStyled;
 }
 

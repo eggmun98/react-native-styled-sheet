@@ -1,13 +1,13 @@
 import React from 'react';
 import { View } from 'react-native';
+import { cssToRN } from './utils/cssToRN';
 
 function styled(Component) {
-  return function (strings) {
+  return function (strings, ...values) {
     return function StyledComponent(props) {
       const cssString = strings.join('');
-      console.log('strings: {}', cssString);
       
-      const style = {};
+      const style = cssToRN(cssString);
 
       return React.createElement(Component, {
         ...props,

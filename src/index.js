@@ -1,4 +1,3 @@
-import React from 'react';
 import { 
   View, 
   Text, 
@@ -16,29 +15,14 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
   RefreshControl,
-  // Modal,
-  // ActivityIndicator,
-  // Switch,
-  // StatusBar,
-  // Button
 } from 'react-native';
-import { cssToRN } from './utils/cssToRN';
+import { createStyledComponent } from './utils/createStyledComponent';
 
 function styled(Component) {
-  return function (strings) {
-    return function StyledComponent(props) {
-      const cssString = strings.join('');
-      console.log('받은 CSS 문자열:', cssString);
-      
-      const style = cssToRN(cssString);
-      console.log('변환된 스타일:', style);
-
-      return React.createElement(Component, {
-        ...props,
-        style: [style, props.style],
-      });
-    };
+  const createStyled = function (strings) {
+    return createStyledComponent(Component, strings);
   };
+  return createStyled;
 }
 
 styled.View = styled(View);
@@ -57,7 +41,5 @@ styled.VirtualizedList = styled(VirtualizedList);
 styled.SafeAreaView = styled(SafeAreaView);
 styled.KeyboardAvoidingView = styled(KeyboardAvoidingView);
 styled.RefreshControl = styled(RefreshControl);
-
-
 
 export default styled; 

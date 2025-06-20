@@ -1,5 +1,10 @@
 import transformDeclPairs from 'css-to-react-native';
 
+/**
+ * CSS 문자열을 React Native 스타일 객체로 변환하는 함수
+ * @param {string} cssString - 변환할 CSS 문자열 (예: "background-color: red; padding: 20px;")
+ * @returns {object} React Native 스타일 객체 (예: { backgroundColor: 'red', paddingTop: 20, ... })
+ */
 export const cssToRN = (cssString) => {
   try {
     if (!cssString || !cssString.trim()) {

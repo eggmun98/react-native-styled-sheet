@@ -1,0 +1,39 @@
+{
+  "name": "react-native-styled-sheet",
+  "version": "0.1.0",
+  "description": "Styled-components like API for React Native using StyleSheet",
+  "main": "./src/index.js",
+  "author": "eggmun98",
+  "keywords": [
+    "react-native",
+    "styled-components",
+    "styled-sheet",
+    "styled-sheet-components",
+    "react-native-styled-sheet",
+    "react"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eggmun98/react-native-styled-sheet.git"
+  },
+  "packageManager": "pnpm@8.0.0",
+  "scripts": {
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "format": "prettier --write src/",
+    "dev": "echo 'Development ready'",
+    "release": "pnpm version patch && pnpm publish && git push && git push --tags"
+  },
+  "peerDependencies": {
+    "react": "*",
+    "react-native": "*"
+  },
+  "devDependencies": {
+    "@react-native-community/eslint-config": "^3.2.0",
+    "eslint": "^8.57.0",
+    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react-native": "^4.1.0",
+    "prettier": "^3.2.5"
+  }
+}

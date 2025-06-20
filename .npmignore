@@ -1,0 +1,14 @@
+tests/
+examples/
+coverage/
+*.log
+*.spec.*
+*.test.*
+__tests__/
+.github/
+.vscode/
+.idea/
+.DS_Store
+.env
+.eslintrc
+.prettierrc

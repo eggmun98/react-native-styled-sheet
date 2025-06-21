@@ -1,6 +1,6 @@
 {
   "name": "react-native-styled-sheet",
-  "version": "0.1.0",
+  "version": "0.1.11",
   "description": "Styled-components like API for React Native using StyleSheet",
   "main": "./src/index.js",
   "author": "eggmun98",

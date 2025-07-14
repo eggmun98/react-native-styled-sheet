@@ -2,7 +2,8 @@
   "name": "react-native-styled-sheet",
   "version": "0.1.11",
   "description": "Styled-components like API for React Native using StyleSheet",
-  "main": "./src/index.js",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "author": "eggmun98",
   "keywords": [
     "react-native",
@@ -19,6 +20,7 @@
   },
   "packageManager": "pnpm@10.13.1",
   "scripts": {
+    "build": "tsc",
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
     "format": "prettier --write src/",

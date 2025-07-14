@@ -17,7 +17,7 @@
     "type": "git",
     "url": "https://github.com/eggmun98/react-native-styled-sheet.git"
   },
-  "packageManager": "pnpm@8.0.0",
+  "packageManager": "pnpm@10.13.1",
   "scripts": {
     "lint": "eslint src/",
     "lint:fix": "eslint src/ --fix",
